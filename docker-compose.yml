@@ -1,0 +1,22 @@
+services:
+
+  chores-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+      - ./data:/usr/src/app/data
+    ports:
+      - 5005:5005
+    environment:
+      - APP_NAME=chore_tracker
+      - FLASK_DEBUG=0
+      - PYTHONUNBUFFERED=0
+      - APP_SETTINGS=project.server.config.ProductionConfig
+      - DATABASE_URL=sqlite:////usr/src/app/data/chores_db.sqlite3
+      - DATABASE_TEST_URL=sqlite:////usr/src/app/data/test_db.sqlite3
+      - PROD_DATABASE_URL=sqlite:////usr/src/app/data/prod_chores_db.sqlite3
+      - SECRET_KEY=change_me_in_prod
+
+

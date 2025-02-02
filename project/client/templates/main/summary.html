@@ -1,0 +1,53 @@
+{% extends "_base.html" %} {% block content %}
+
+<script src="{{ url_for('static', filename='main.js') }}" defer></script>
+
+<div class="body-content">
+  <div>
+    <h1>Weekly Summary</h1>
+    <hr />
+    <br />
+    <p>Current week starting on {{ this_week.date() }}</p>
+  </div>
+
+  <h4 class="mt-4">Select a Week</h4>
+  <div class="col-lg-4 col-sm-4">
+    <form id="queryForm" method="GET" action="{{ url_for('main.summary') }}">
+      <label for="weekPicker">Pick a Date:</label>
+      <input type="date" id="weekPicker" />
+      <input
+        type="hidden"
+        name="start_of_week"
+        id="startOfWeek"
+        value="{{ start_of_week }}"
+      />
+    </form>
+    selected week starting on {{ start_of_week.date() }}
+  </div>
+
+  <h4 class="mt-4">Earnings this week</h4>
+  <div class="col-lg-4 col-sm-4">
+    <ul>
+      {% for child_id, (child_name, total) in running_total.items() %}
+      <li><b>Child:</b> {{ child_name }} = <b>Total:</b> ${{ total }}</li>
+      {% endfor %}
+    </ul>
+    <br />
+  </div>
+  <h4 class="mt-4">Chores Completed This Week</h4>
+  <div class="col-lg-4 col-sm-4">
+    <ul class="list-group">
+      {% for chore in weekly_chores %}
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <span> {{ chore.child.name }} - {{ chore.chore.chore }} </span>
+        <span>
+          Completed on: {{ chore.completed_on.strftime('%Y-%m-%d') }}
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
