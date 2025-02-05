@@ -165,10 +165,10 @@ def approval():
 
     running_total = {}
     for child in weekly_totals:
-        if child.child_id not in running_total:
-            child = Child.query.get(child.id)
-            running_total[child.id] = (child.name, get_child_weekly_total(
-                child.id,
+        if child.child_id not in running_total: 
+            kid = Child.query.get(child.child_id)
+            running_total[child.child_id] = (kid.name, get_child_weekly_total(
+                child.child_id,
                 start_of_week,
                 end_of_week,
                 ))
@@ -177,12 +177,12 @@ def approval():
     approved_this_week = {}
     for child in approved:
         if child.child_id not in approved:
-            kid = Child.query.get(child.id)
+            kid = Child.query.get(child.child_id)
             approved_by_user = User.query.get(child.approved_by)
             child = WeeklyTotals.query.get(child.id)
-            approved_this_week[child.id] = (kid.name,
-                                            approved_by_user.user_name if approved_by_user else "Not Approved",
-                                            f"on {child.approved_on}" if child.approved_on else "",)
+            approved_this_week[child.child_id] = (kid.name,
+                                                  approved_by_user.user_name if approved_by_user else "Not Approved",
+                                                  f"on {child.approved_on}" if child.approved_on else "",)
 
     form = ApprovePaymentForm(request.form)
     if request.method == 'POST' and form.validate_on_submit():
