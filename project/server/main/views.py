@@ -84,8 +84,7 @@ def summary():
         start_of_week = datetime.strptime(start_of_week_str, "%Y-%m-%d")
     else:
         # Default to the current week's Monday if no input
-        today = datetime.today()
-        start_of_week = today - timedelta(days=today.weekday())
+        start_of_week = get_start_of_week()
 
     end_of_week = start_of_week + timedelta(days=6, hours=23, minutes=59, seconds=59)
 

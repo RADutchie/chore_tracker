@@ -156,8 +156,7 @@ def approval():
         start_of_week = datetime.strptime(start_of_week_str, "%Y-%m-%d")
     else:
         # Default to the current week's Monday if no input
-        today = datetime.today()
-        start_of_week = today - timedelta(days=today.weekday())
+        start_of_week = get_start_of_week()
 
     end_of_week = start_of_week + timedelta(days=6, hours=23, minutes=59, seconds=59)
 
@@ -165,7 +164,7 @@ def approval():
 
     running_total = {}
     for child in weekly_totals:
-        if child.child_id not in running_total: 
+        if child.child_id not in running_total:
             kid = Child.query.get(child.child_id)
             running_total[child.child_id] = (kid.name, get_child_weekly_total(
                 child.child_id,
